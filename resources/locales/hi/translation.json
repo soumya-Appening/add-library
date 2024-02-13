@@ -1,0 +1,14 @@
+{
+    "unauthorized": "अनधिकृत",
+    "invalid_otp": "अमान्य OTP",
+    "otp_verified": "OTP सत्यापित",
+    "otp_expired": "OTP समाप्त हो गया",
+    "otp_sent_successfully": "OTP सफलतापूर्वक भेजा गया",
+    "Please_provide_bank_account_number_or_UPI_id!": "कृपया बैंक खाता संख्या या UPI आईडी प्रदान करें!",
+    "JobSahayak_not_found": "जॉबसहायक नहीं मिला",
+    "otp_not_verified": "OTP सत्यापित नहीं है",
+    "JobSahayak_is_already_onboarded": "जॉबसहायक पहले से ही बोर्ड पर है!",
+    "Invalid_DOB_format": "अमान्य जन्मतिथि प्रारूप!",
+    "otp_already_verified": "OTP पहले ही सत्यापित है",
+    "Please_complete_onboarding_process_before_logging_in": "कृपया लॉग इन करने से पहले बोर्डिंग प्रक्रिया पूरी करें!"
+}
