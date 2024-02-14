@@ -45,7 +45,8 @@ Route.post("/reset-password", AuthController.resetPassword);
 Route.post("/admin/login", AuthRequest.getAdminLoginRules(), validate, AuthController.adminLogin);
 Route.post("/admin/register", AuthRequest.getRegisterRules(), validate, AuthController.register);
 // Route.post("/admin/forgot-password", AuthRequest.getForgotAdminPasswordRules(), validate, AuthController.forgotAdminPassword);
-// Route.post("/admin/resend-otp", AuthRequest.getResendAdminOtpRules(), validate, AuthController.resendAdminOtp);
+// Route.post("/admin/resend-otp", AuthRequest.getResendAdminOtpRules(), validate, AuthController.resendOtp);
+Route.post("/admin/resend-otp", AuthController.resendOtp);
 // Route.post("/admin/verify-otp", AuthRequest.getVerifyAdminOtpRules(), validate, AuthController.verifyAdminOtp);
 // Route.post("/admin/reset-password", AuthRequest.getAdminResetPasswordRules(), validate, AuthController.resetAdminPassword);
 

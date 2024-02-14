@@ -133,6 +133,11 @@ class AuthController extends BaseController {
         this.userPasswordResetDetails
       );
 
+      // Store userPasswordResetDetails in the session
+      req.dbSession.userPasswordResetDetails = this.userPasswordResetDetails;
+      console.log("Full session: ", req.dbSession);
+      console.log("Forget pass session: ", req.dbSession.userPasswordResetDetails);
+
       await sendEmail({
         email: email,
         otp: this.generateOTP,
@@ -151,15 +156,96 @@ class AuthController extends BaseController {
 
   // Verify otp controller
   verifyOtp = async (req, res) => {
-    const response = new AuthResponse(req, res);
+    const response = new AuthResponse( req, res );
+    const session = req.dbSession;
+    this._userRepository.setDBSession(session);
     const { userOtp } = _.pick(req.body, ["userOtp"]);
-    console.log("User Otp: ", userOtp);
-    console.log("Generated Otp: ", this.generateOTP);
 
-    if (this.generateOTP.trim() === userOtp.trim()) {
-      return response.okResponse(200, "Otp verification successful!");
-    } else {
-      throw new BadRequestError("Otp didn't match!");
+    try {
+    
+      // const { email } = req.dbSession.userPasswordResetDetails;
+      // console.log(
+      //   "VErify otp session: ",
+      //   req.dbSession.userPasswordResetDetails
+      // );
+
+      // if (!email) {
+      //   throw new BadRequestError("User details not found.");
+      // }
+
+      // const user = await this._userRepository.findOne({
+      //   email: email.toString().trim()
+      // });
+
+      // if (!user) {
+      //   throw new BadRequestError("User not found.");
+      // }
+
+      // const storedHashedOtp = user.otp;
+     
+      // const match = await bcrypt.compare(userOtp.trim(), storedHashedOtp);
+
+      if (this.generateOTP.toString().trim() === userOtp.toString().trim()) {
+        return response.okResponse(200, "Otp verification successful!");
+      } else {
+        throw new BadRequestError("Otp didn't match!");
+      }
+    } catch (error) {
+      if (error instanceof BadRequestError) {
+        return response.badRequestResponse(error);
+      }
+      return response.internalServerErrorResponse(error);
+    }
+  };
+
+  // Resend OTP controller
+  resendOtp = async (req, res) => {
+    const response = new AuthResponse(req, res);
+    const session = req.dbSession;
+    this._userRepository.setDBSession(session);
+
+    try {
+      let { email } = _.pick(req.body, ["email"]);
+      console.log("Email: ", email);
+
+      let user = await this._userRepository.findOne({
+        email: email.toString().trim()
+      });
+
+      if (!user) {
+        throw new BadRequestError("User doesn't exist!");
+      }
+
+      // Generate a new OTP
+      this.generateOTP = String(helpers.generateOTP());
+
+      // Update user's OTP details
+      // const updatedUser = await this._userRepository.findAndUpdate(user._id, {
+      //   $set: {
+      //     otp: newOtp,
+      //     otpGeneratedAt: moment(),
+      //     otpVerified: false
+      //   }
+      // });
+
+      // Send the new OTP via email
+      await sendEmail({
+        email: email,
+        otp: this.generateOTP,
+        name: user.name,
+        subject: "Resend OTP for Resetting your Password"
+      });
+
+      return response.okResponse(
+        200,
+        "New OTP sent successfully.",
+        updatedUser
+      );
+    } catch (error) {
+      if (error instanceof BadRequestError) {
+        return response.badRequestResponse(error);
+      }
+      return response.internalServerErrorResponse(error);
     }
   };
 
