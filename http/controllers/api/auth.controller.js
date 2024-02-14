@@ -405,7 +405,7 @@ const { userTypes } = require("../../../helpers/constants");
 const BadRequestError = require("../../../exceptions/badRequest.exception");
 // const { default: generateTokenJWT } = require('../../../utils/generateTokenJwt');
 const helpers = require("../../../helpers/helpers");
-const { send_email_template } = require("../../../helpers/send_email_template");
+const { sendEmail } = require( "../../../helpers/send_email" );
 // const generateTokenJwt = require('../../../utils/generateTokenJwt');
 /* End Responses */
 
@@ -487,7 +487,7 @@ class AuthController extends BaseController {
         this.userPasswordResetDetails
       );
 
-      await send_email_template({
+      await sendEmail({
         email: email,
         otp: this.generateOTP,
         name: user.name,
