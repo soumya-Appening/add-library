@@ -6,17 +6,26 @@ const path = require('path');
 
 const bucketName = process.env.AWS_BUCKET;
 
-const s3Storage = multerS3({
-    s3: s3,
-    bucket: process.env.AWS_BUCKET,
-    metadata: function (req, file, cb) {
-        cb(null, {
-            fieldName: file.fieldname + '-' + Date.now() + path.extname(file.originalname)
-        });
-    },
-    key: async function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
+// const s3Storage = multerS3({
+//     s3: s3,
+//     bucket: process.env.AWS_BUCKET,
+//     metadata: function (req, file, cb) {
+//         cb(null, {
+//             fieldName: file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+//         });
+//     },
+//     key: async function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+//     }
+// } );
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
 });
 
 const upload = multer({
@@ -33,7 +42,8 @@ const upload = multer({
         return cb(new Error('file not allowed'));
     },
     // storage: storage//storage
-    storage: s3Storage //s3
+    // storage: s3Storage //s3
+    storage: storage //s3
 });
 
 const mimeTypes = {

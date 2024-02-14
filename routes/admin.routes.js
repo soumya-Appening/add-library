@@ -47,7 +47,7 @@ const ChartController = require("../http/controllers/api/admin/chart.controller"
 
 const validate = AdminRequest.validate;
 
-Route.use(ApiMiddleware.superVisorAuth)
+// Route.use(ApiMiddleware.superVisorAuth)
 
 //dashboard routes
 Route.get("/home/ads", DashBoardRequest.getAdsRules(),validate, DashBoardController.getAds)
@@ -56,7 +56,7 @@ Route.get("/home/influencer/:id",DashBoardRequest.getInfluencerDetailRules(), Da
 Route.get("/uploader/list", AdminRequest.getUploaderRules(), validate, UploaderController.getUploaderList)
 //end of platform routes
 
-Route.use(ApiMiddleware.adminAuth)
+// Route.use(ApiMiddleware.adminAuth)
 
 //Admin routes
 Route.post("/create", AdminRequest.getAddAdminRules(), validate,  AdminController.createAdmin);
@@ -66,11 +66,12 @@ Route.delete("/remove/:id", AdminRequest.getDeleteAdminRules(), validate, AdminC
 //End admin routes
 
 //Supervisor routes
+// Route.post("/supervisor/create", AdminRequest.getAddSupervisorRules(), validate, SuperVisorController.createSuperVisor);
 Route.post("/supervisor/create", AdminRequest.getAddSupervisorRules(), validate, SuperVisorController.createSuperVisor);
-Route.get("/supervisor/list", AdminRequest.getSupervisorRules(), validate, SuperVisorController.getSuperVisorList)
-Route.put("/supervisor/update/:id", AdminRequest.getUpdateSupervisorRules(), validate, SuperVisorController.updateSuperVisor)
-Route.delete("/supervisor/remove/:id", AdminRequest.getDeleteSupervisorRules(), validate, SuperVisorController.removeSuperVisor)
-Route.get("/supervisors", SuperVisorController.getSupervisor)
+// Route.get("/supervisor/list", AdminRequest.getSupervisorRules(), validate, SuperVisorController.getSuperVisorList)
+// Route.put("/supervisor/update/:id", AdminRequest.getUpdateSupervisorRules(), validate, SuperVisorController.updateSuperVisor)
+// Route.delete("/supervisor/remove/:id", AdminRequest.getDeleteSupervisorRules(), validate, SuperVisorController.removeSuperVisor)
+// Route.get("/supervisors", SuperVisorController.getSupervisor)
 //End supervisor routes
 
 //Uploader routes

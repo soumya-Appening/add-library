@@ -5,3 +5,5 @@ logs/*
 data
 *.rdb
 logs*
+
+./public/uploads
