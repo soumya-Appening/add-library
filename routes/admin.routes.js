@@ -43,6 +43,9 @@ const ProductController = require("../http/controllers/api/admin/product.control
 const DashBoardController = require("../http/controllers/api/admin/dashboard.controller");
 const AdsController = require("../http/controllers/api/admin/ads.controller");
 const ChartController = require("../http/controllers/api/admin/chart.controller");
+const supervisorNewController = require( "../http/controllers/api/admin/supervisorNew.controller" );
+const platformNewController = require( "../http/controllers/api/admin/platformNew.controller" );
+const uploaderNewController = require( "../http/controllers/api/admin/uploaderNew.controller" );
 /* End Controllers*/
 
 const validate = AdminRequest.validate;
@@ -67,18 +70,23 @@ Route.delete("/remove/:id", AdminRequest.getDeleteAdminRules(), validate, AdminC
 
 //Supervisor routes
 // Route.post("/supervisor/create", AdminRequest.getAddSupervisorRules(), validate, SuperVisorController.createSuperVisor);
-Route.post("/supervisor/create", AdminRequest.getAddSupervisorRules(), validate, SuperVisorController.createSuperVisor);
+Route.post("/supervisor/create/:userId", AdminRequest.getAddSupervisorRules(), validate, supervisorNewController.addNewSupervisor);
 // Route.get("/supervisor/list", AdminRequest.getSupervisorRules(), validate, SuperVisorController.getSuperVisorList)
 // Route.put("/supervisor/update/:id", AdminRequest.getUpdateSupervisorRules(), validate, SuperVisorController.updateSuperVisor)
 // Route.delete("/supervisor/remove/:id", AdminRequest.getDeleteSupervisorRules(), validate, SuperVisorController.removeSuperVisor)
+Route.delete( "/supervisor/remove/:userId/:id", AdminRequest.getDeleteSupervisorRules(), validate, supervisorNewController.deleteASupervisor );
 // Route.get("/supervisors", SuperVisorController.getSupervisor)
+Route.get("/supervisors/:userId", supervisorNewController.getAllSupervisors)
 //End supervisor routes
 
 //Uploader routes
-Route.post("/uploader/create", AdminRequest.getAddUploaderRules(), validate, UploaderController.createUploader);
+// Route.post("/uploader/create/:userId", AdminRequest.getAddUploaderRules(), validate, UploaderController.createUploader);
+Route.post("/uploader/create/:userId", AdminRequest.getAddUploaderRules(), validate, uploaderNewController.addNewUploader);
 Route.put("/uploader/update/:id", AdminRequest.getUpdateUploaderRules(), validate, UploaderController.updateUploader)
-Route.delete("/uploader/remove/:id", AdminRequest.getDeleteUploaderRules(), validate, UploaderController.removeUploader)
-Route.get("/uploaders", UploaderController.getUploader)
+// Route.delete("/uploader/remove/:id", AdminRequest.getDeleteUploaderRules(), validate, UploaderController.removeUploader)
+Route.delete("/uploader/remove/:userId/:id", AdminRequest.getDeleteUploaderRules(), validate, uploaderNewController.deleteUploader)
+// Route.get("/uploaders", UploaderController.getUploader)
+Route.get("/uploaders/:userId", uploaderNewController.getAllUploaders)
 //End uploader routes
 
 //Influencer routes
@@ -99,8 +107,11 @@ Route.get("/products", AdminRequest.getProductRules(), ProductController.getProd
 //end of product routes
 
 //platform routes
-Route.post("/platform/create", AdminRequest.getAddPlatformRules(), validate, PlatformController.addPLatform)
-Route.get("/platforms", PlatformController.getPlatforms)
+// Route.post("/platform/create", AdminRequest.getAddPlatformRules(), validate, PlatformController.addPLatform)
+Route.post("/platform/create/:userId", AdminRequest.getAddPlatformRules(), validate, platformNewController.addNewPlatform)
+// Route.get("/platforms", PlatformController.getPlatforms)
+Route.get( "/platforms/:userId", platformNewController.getAllPlatform )
+Route.delete("/platform/remove/:userId/:id", platformNewController.deleteAPlatform);
 //end of platform routes
 
 //ads routes
