@@ -59,18 +59,25 @@ class SuperVisorNewController extends BaseController {
     let { userId } = _.pick(req.params, ["userId"]);
     this._userRepository.setDBSession(session);
 
-    try {
-      // Set up paginator to retrieve all documents
-      const paginator = {
-        page: 1, // Start from page 1
-        filters: { createdBy: userId, role: userTypes.SUPERVISOR }, // Your filter criteria
-        lookup: [],
-        addFields: null,
-        project: null,
-        limit: 0 // Set limit to 0 to fetch all documents
-      };
+    try
+    {
+      // const paginator = {
+      //   pipeline: [
+      //     {
+      //       $match: {
+      //         createdBy: userId,
+      //         role: userTypes.SUPERVISOR
+      //       }
+      //     }
+      //   ]
+      // };
 
-      let supervisors = await this._userRepository.getAll(paginator);
+      // let supervisors = await this._userRepository.getAll(paginator);
+      
+      let supervisors = await this._userRepository.findAll({
+        createdBy: userId,
+        role: userTypes.SUPERVISOR
+      });
 
       return response.postDataResponse(supervisors);
     } catch (e) {

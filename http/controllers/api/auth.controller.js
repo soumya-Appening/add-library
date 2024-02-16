@@ -220,13 +220,13 @@ class AuthController extends BaseController {
       this.generateOTP = String(helpers.generateOTP());
 
       // Update user's OTP details
-      // const updatedUser = await this._userRepository.findAndUpdate(user._id, {
-      //   $set: {
-      //     otp: newOtp,
-      //     otpGeneratedAt: moment(),
-      //     otpVerified: false
-      //   }
-      // });
+      const updatedUser = await this._userRepository.findAndUpdate(user._id, {
+        $set: {
+          otp: newOtp,
+          otpGeneratedAt: moment(),
+          otpVerified: false
+        }
+      });
 
       // Send the new OTP via email
       await sendEmail({
